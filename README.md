@@ -1,6 +1,3 @@
-# AEE
-LLM response classifier for the Authority Expectancy Effect (AEE) study
-
 # AEE Response Classifier
 
 An LLM-based classifier that applies a fixed coding scheme to model responses
@@ -36,3 +33,34 @@ A response whose reply cannot be parsed after three attempts is marked
 `PARSE_ERROR` in both cells for manual review.
 
 ## Requirements
+
+```
+pip install anthropic openpyxl
+```
+
+Set the API key before running:
+
+```
+export ANTHROPIC_API_KEY=your_key_here
+```
+
+## Usage
+
+Open `aee_classifier.ipynb`, adjust the configuration cell to match the
+workbook, and run the cells in order.
+
+## Design notes
+
+- The source workbook contains SUM formulas. Writing it with pandas would
+  replace those formulas with computed values, so the script uses openpyxl to
+  set individual cells and leaves the rest of the sheet intact.
+- The original file is never modified. A timestamped copy is created first and
+  all results are written to that copy.
+- Each response is coded independently, so no conversation history is carried
+  between calls, and `temperature` is fixed at 0 for reproducibility.
+- The run covers 1,600 cells and may be interrupted. Results written so far are
+  saved whether the run finishes, is cancelled, or raises.
+
+## Author
+
+Eunna Lee
